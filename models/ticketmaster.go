@@ -137,18 +137,20 @@ func (e TMErrorResponse) Message() string {
 
 func (e TMEvent) BestImageURL() string {
 	var best TMImage
+	var bestScore int
+
 	for _, img := range e.Images {
 		if img.URL == "" || img.Fallback {
 			continue
 		}
-		if img.Ratio == "16_9" && img.Width >= 640 {
-			if best.Ratio != "16_9" || img.Width < best.Width || best.Width == 0 {
-				best = img
-			}
-			continue
+
+		score := img.Width
+		if img.Ratio == "16_9" {
+			score += 100000
 		}
-		if best.Ratio != "16_9" && img.Width > best.Width {
-			best = img
+
+		if best.URL == "" || score > bestScore {
+			best, bestScore = img, score
 		}
 	}
 	return best.URL
