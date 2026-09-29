@@ -24,9 +24,23 @@ profile.cov
 go.work
 go.work.sum
 
-# env file
-.env
-
 # Editor/IDE
-# .idea/
-# .vscode/
+.idea/
+.vscode/
+.DS_Store
+*.swp
+
+# secrets
+.env
+.env.local
+*.pem
+
+# build artifacts
+eventexplorer
+eventexplorer.exe
+/tmp/
+/lastupdate.tmp
+
+# coverage
+coverage.out
+coverage.html
