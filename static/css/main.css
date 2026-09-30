@@ -165,6 +165,10 @@ body {
     flex-wrap: wrap; 
     padding: 20px; 
 }
+@media (max-width: 640px) {
+  .search-row { flex-direction: column; }
+  .btn-primary { width: 100%; }
+}
 
 /* listing page */
 .crumbs { color: var(--muted); font-size: 13px; margin-bottom: 18px; }
@@ -278,12 +282,60 @@ body {
 .notice-title { margin: 0 0 8px; font-size: 17px; color: var(--text); }
 .notice p { margin: 0 0 10px; }
 .notice p:last-child { margin-bottom: 0; }
-
-@media (max-width: 640px) {
-  .search-row { flex-direction: column; }
-  .btn-primary { width: 100%; }
-}
 @media (max-width: 640px) {
   .listing-title-row { flex-direction: column; }
   .meta-line { gap: 10px; flex-direction: column; }
+}
+
+/* details page */
+.back-line { margin: 0 0 22px; }
+.back-link { color: var(--accent); text-decoration: none; font-size: 14px; }
+.detail-grid { 
+    display: grid; 
+    gap: 26px; 
+    grid-template-columns: minmax(0, 1.9fr) minmax(280px, 1fr); 
+    align-items: start; 
+}
+.detail-media { 
+    border-radius: 14px; 
+    overflow: hidden; 
+    border: 1px solid var(--line); 
+    background: #10140e; 
+    aspect-ratio: 16 / 9; 
+}
+.detail-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.detail-kicker { color: var(--accent); font-size: 13px; margin: 20px 0 4px; }
+.detail-title { font-size: clamp(26px, 4vw, 38px); margin: 0 0 22px; line-height: 1.15; }
+.detail-subhead { 
+    font-size: 19px; 
+    margin: 26px 0 10px; 
+    padding-top: 22px; 
+    border-top: 1px solid var(--line); 
+}
+.detail-body { color: var(--muted); margin: 0; white-space: pre-line; }
+.detail-body.muted { font-style: italic; }
+.detail-side { 
+    background: var(--panel); 
+    border: 1px solid var(--line); 
+    border-radius: 14px; 
+    padding: 22px; 
+    position: sticky; 
+    top: 20px; 
+}
+.side-title { font-size: 22px; margin: 6px 0 18px; }
+.side-row { padding: 14px 0; border-top: 1px solid var(--line); }
+.side-label { 
+    margin: 0 0 4px; 
+    font-size: 11px; 
+    letter-spacing: .1em; 
+    text-transform: uppercase; 
+    color: var(--muted); 
+}
+.side-value { margin: 0; font-weight: 600; }
+.side-sub { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
+.btn-block { display: block; width: 100%; text-align: center; margin-top: 20px; }
+.side-note { color: var(--muted); font-size: 12px; margin: 12px 0 0; }
+@media (max-width: 820px) {
+  .detail-grid { grid-template-columns: 1fr; }
+  .detail-side { position: static; }
 }

@@ -10,6 +10,7 @@ func init() {
 	// Page routes
 	beego.Router("/", &controllers.PageController{}, "get:Home")
 	beego.Router("/events", &controllers.PageController{}, "get:Listing")
+	beego.Router("/events/:eventId", &controllers.PageController{}, "get:Details")
 
 	// API routes
 	beego.Router("/api/locations/autocomplete", &controllers.LocationController{}, "get:Autocomplete")
