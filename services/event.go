@@ -19,6 +19,7 @@ var (
 type EventService interface {
 	ListByCity(ctx context.Context, city, countryCode string) []models.EventSection
 	GetEvent(ctx context.Context, eventID string) (models.EventDetail, error)
+	RawEvent(ctx context.Context, eventID string) (models.TMEvent, error)
 }
 
 type eventService struct {
