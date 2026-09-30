@@ -42,7 +42,6 @@ eventexplorer.exe
 /lastupdate.tmp
 
 # coverage
-coverage.out
 coverage.html
 
 data/sample_cities.json
