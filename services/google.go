@@ -10,11 +10,17 @@ import (
 	"fmt"
 	"net/url"
 	"strings"
+	"sync"
 
 	"github.com/beego/beego/v2/core/logs"
 )
 
 const minAutocompleteChars = 3
+
+var (
+	initDefaultLocationOnce sync.Once
+	defaultLocationService  LocationService
+)
 
 type LocationService interface {
 	Autocomplete(ctx context.Context, input, sessionToken string) ([]models.CitySuggestion, error)
@@ -123,7 +129,7 @@ func (s *GoogleService) PlaceDetails(ctx context.Context, placeID, sessionToken 
 	return city, nil
 }
 
-var _ LocationService = (*GoogleService)(nil)
+var _ LocationService = (*GoogleService)(nil) // check & validation
 
 func NewGoogleService(cfg *config.Config) *GoogleService {
 	return &GoogleService{
@@ -148,4 +154,11 @@ func NewSessionToken() string {
 		return "fallback-session-token"
 	}
 	return hex.EncodeToString(b)
+}
+
+func DefaultLocationService() LocationService {
+	initDefaultLocationOnce.Do(func() {
+		defaultLocationService = NewGoogleService(config.GetConfig())
+	})
+	return defaultLocationService
 }

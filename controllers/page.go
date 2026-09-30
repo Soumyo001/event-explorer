@@ -1,12 +1,19 @@
 package controllers
 
-import "github.com/beego/beego/v2/server/web"
+import (
+	"eventexplorer/models"
+	"eventexplorer/services"
+)
 
 type PageController struct {
-	web.Controller
+	BaseController
 }
 
 func (p *PageController) Home() {
-	p.Data["Title"] = "Event Explorer"
+	p.Data["Page"] = models.HomePageData{
+		Title:        "Event Explorer",
+		Attribution:  models.GoogleAttribution,
+		SampleCities: services.SampleCities(),
+	}
 	p.TplName = "home.tpl"
 }
