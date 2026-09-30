@@ -64,6 +64,9 @@ func (s *TicketmasterService) FetchEvents(ctx context.Context, city, countryCode
 	if !category.Valid() {
 		return nil, fmt.Errorf("%w: unsupported category %q", models.ErrInvalidInput, category)
 	}
+	// if category == models.CategorySports { // check this for cache failure of sports category still renders music category
+	// 	return nil, models.ErrUpstreamUnavailable
+	// }
 	if s.apiKey == "" {
 		logs.Error("ticketmaster api key not configured")
 		return nil, models.ErrUpstreamUnavailable
