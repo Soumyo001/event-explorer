@@ -14,6 +14,9 @@ func (c *LocationController) Prepare() {
 	if c.Locations == nil {
 		c.Locations = services.DefaultLocationService()
 	}
+	if c.Locations == nil {
+		panic("location service is not initialised")
+	}
 }
 
 func (c *LocationController) Autocomplete() {
