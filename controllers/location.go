@@ -28,6 +28,9 @@ func (c *LocationController) Autocomplete() {
 		c.FailJSON(err)
 		return
 	}
+	if suggestions == nil {
+		suggestions = []models.CitySuggestion{}
+	}
 
 	c.JSONData(models.AutocompleteAPIResponse{
 		Suggestions: suggestions,
