@@ -26,8 +26,7 @@ func TestAutocompleteReturnsSuggestionsAndAttribution(t *testing.T) {
 		{PlaceID: "p1", MainText: "Toronto", SecondaryText: "ON, Canada"},
 	}}
 
-	rec := serve(t, locationApp(svc), http.MethodGet,
-		"/api/locations/autocomplete?input=toronto&sessionToken=s1")
+	rec := serve(t, locationApp(svc), http.MethodGet, "/api/locations/autocomplete?input=toronto&sessionToken=s1")
 
 	if rec.Code != http.StatusOK {
 		t.Fatalf("expected 200, got %d: %s", rec.Code, rec.Body)
@@ -47,8 +46,7 @@ func TestAutocompleteReturnsSuggestionsAndAttribution(t *testing.T) {
 }
 
 func TestAutocompleteReturnsAnEmptyListNotNull(t *testing.T) {
-	rec := serve(t, locationApp(&stubLocationService{}), http.MethodGet,
-		"/api/locations/autocomplete?input=zzz&sessionToken=s1")
+	rec := serve(t, locationApp(&stubLocationService{}), http.MethodGet, "/api/locations/autocomplete?input=zzz&sessionToken=s1")
 
 	if strings.Contains(rec.Body.String(), `"suggestions":null`) {
 		t.Errorf("expected an empty array, got %s", rec.Body)
@@ -58,8 +56,7 @@ func TestAutocompleteReturnsAnEmptyListNotNull(t *testing.T) {
 func TestAutocompleteShortInputIsABadRequest(t *testing.T) {
 	svc := &stubLocationService{err: models.ErrInvalidInput}
 
-	rec := serve(t, locationApp(svc), http.MethodGet,
-		"/api/locations/autocomplete?input=to&sessionToken=s1")
+	rec := serve(t, locationApp(svc), http.MethodGet, "/api/locations/autocomplete?input=to&sessionToken=s1")
 
 	if rec.Code != http.StatusBadRequest {
 		t.Fatalf("expected 400, got %d", rec.Code)
@@ -77,8 +74,7 @@ func TestAutocompleteShortInputIsABadRequest(t *testing.T) {
 func TestAutocompleteProviderFailureIsABadGateway(t *testing.T) {
 	svc := &stubLocationService{err: models.ErrUpstreamUnavailable}
 
-	rec := serve(t, locationApp(svc), http.MethodGet,
-		"/api/locations/autocomplete?input=toronto&sessionToken=s1")
+	rec := serve(t, locationApp(svc), http.MethodGet, "/api/locations/autocomplete?input=toronto&sessionToken=s1")
 
 	if rec.Code != http.StatusBadGateway {
 		t.Fatalf("expected 502, got %d", rec.Code)
@@ -92,8 +88,7 @@ func TestAutocompleteProviderFailureIsABadGateway(t *testing.T) {
 func TestPlaceDetailsReturnsTheSelectedCity(t *testing.T) {
 	svc := &stubLocationService{city: models.SelectedCity{City: "Toronto", CountryCode: "CA"}}
 
-	rec := serve(t, locationApp(svc), http.MethodGet,
-		"/api/locations/ChIJ123?sessionToken=s1")
+	rec := serve(t, locationApp(svc), http.MethodGet, "/api/locations/ChIJ123?sessionToken=s1")
 
 	if rec.Code != http.StatusOK {
 		t.Fatalf("expected 200, got %d: %s", rec.Code, rec.Body)
