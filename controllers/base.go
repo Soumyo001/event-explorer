@@ -5,6 +5,7 @@ import (
 	"eventexplorer/models"
 	"net/http"
 
+	"github.com/beego/beego/v2/core/logs"
 	"github.com/beego/beego/v2/server/web"
 )
 
@@ -60,7 +61,7 @@ func (c *BaseController) RenderError(status int, headingText, message, backURL s
 	if backURL == "" {
 		backURL = "/"
 	}
-	c.Ctx.Output.SetStatus(status)
+
 	c.Data["Page"] = models.ErrorPageData{
 		Title:      headingText,
 		StatusCode: status,
@@ -69,6 +70,21 @@ func (c *BaseController) RenderError(status int, headingText, message, backURL s
 		BackURL:    backURL,
 	}
 	c.TplName = "error.tpl"
+	c.EnableRender = false
+
+	html, err := c.RenderString()
+	if err != nil {
+		logs.Error("error page render failed: %v", err)
+		c.Ctx.Output.SetStatus(status)
+		c.Ctx.WriteString(message)
+		return
+	}
+
+	c.Ctx.Output.SetStatus(status)
+	c.Ctx.Output.Header("Content-Type", "text/html; charset=utf-8")
+	if err := c.Ctx.Output.Body([]byte(html)); err != nil {
+		logs.Error("error page write failed: %v", err)
+	}
 }
 
 func (c *BaseController) FailPage(err error, backURL string) {
